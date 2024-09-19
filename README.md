@@ -2,13 +2,13 @@
 
 ## Introduction
 
-This crate is a simple wrapper over the `esp-idf-sys` bindings to make servo control easier using the LEDC module. 
+This crate is a simple wrapper over the `esp-idf-sys` bindings to make servo control easier using the LEDC module.
 
 ## Basic Usage
 
-Create a basic Servo Configuration - this one specific for the SG90 series of servo motors. 
+Create a basic Servo Configuration - this one specific for the SG90 series of servo motors.
 
-```
+```rs
 let peripherals = Peripherals::take().unwrap();
 
 let servo_cfg = ServoConfig {
@@ -17,7 +17,7 @@ let servo_cfg = ServoConfig {
     min_width_us: 500,
     max_width_us: 2500,
     frequency: 50,
-    
+
     // choose your timer: see https://esp-rs.github.io/esp-idf-sys/esp_idf_sys/?search=ledc_timer_t_LEDC_TIMER_0
     timer_number: 0,
 
@@ -32,15 +32,15 @@ let servo_cfg = ServoConfig {
 };
 ```
 
-Initialize the servo: 
+Initialize the servo:
 
-```
+```rs
 let servo = Servo::init(servo_cfg);
 ```
 
-Change the angle of the servo within your program: 
+Change the angle of the servo within your program:
 
-```
+```rs
 loop {
     for i in 0..180 {
 
@@ -52,11 +52,11 @@ loop {
     }
 
     for i in (0..180).rev() {
-            
+
         servo.write_angle((i as f64));
 
         FreeRtos::delay_ms(20);
-        
+
         println!("Angle: {}", servo.read_angle());
     }
 }
