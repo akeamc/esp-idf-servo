@@ -1,8 +1,8 @@
 use esp_idf_sys::{
-    esp, EspError, gpio_num_t, ledc_channel_config, ledc_channel_config_t, ledc_channel_t,
-    ledc_get_duty, ledc_intr_type_t_LEDC_INTR_DISABLE, ledc_mode_t, ledc_set_duty, ledc_stop,
-    ledc_timer_bit_t, ledc_timer_bit_t_LEDC_TIMER_10_BIT, ledc_timer_config, ledc_timer_config_t,
-    ledc_timer_rst, ledc_timer_t, ledc_update_duty, soc_periph_ledc_clk_src_legacy_t_LEDC_AUTO_CLK,
+    esp, gpio_num_t, ledc_channel_config, ledc_channel_config_t, ledc_channel_t, ledc_get_duty,
+    ledc_intr_type_t_LEDC_INTR_DISABLE, ledc_mode_t, ledc_set_duty, ledc_stop, ledc_timer_bit_t,
+    ledc_timer_bit_t_LEDC_TIMER_10_BIT, ledc_timer_config, ledc_timer_config_t, ledc_timer_rst,
+    ledc_timer_t, ledc_update_duty, soc_periph_ledc_clk_src_legacy_t_LEDC_AUTO_CLK, EspError,
 };
 
 static SERVO_LEDC_INIT_BITS: ledc_timer_bit_t = ledc_timer_bit_t_LEDC_TIMER_10_BIT;
@@ -56,6 +56,7 @@ impl Servo {
             speed_mode: config.speed_mode,
             duty_resolution: SERVO_LEDC_INIT_BITS,
             timer_num: config.timer_number,
+            deconfigure: true,
         };
 
         esp!(unsafe { ledc_timer_config(&ledc_timer_cfg) })?;
